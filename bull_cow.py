@@ -1,3 +1,6 @@
+import random
+guess = ''.join(random.sample("0123456789", 4))
+tries = 1
 print('''
                         ┌──┐─────┌─┐───────┌┐┌─┐────┌─┐
                         │┌┐├┬┬┐┌┐│─┤┌─┐┌─┬┬┘││┌┼─┬┬┬┤─┤
@@ -6,27 +9,35 @@ print('''
             ______________________________________________________
             |      Welcome to the game of Bulls and Cows          | 
             |In this game you will try to find the hidden number  |
-            |       You have 5 attempts to find the number        |
+            |Hidden number consists from 4 digits which not repeat|
+            |       You have 15 attempts to find the number        |
             |_____________________________________________________|
       ''')
 
-print("1555" == "1555")
-userInput = ""
-while len(str(userInput)) != 4:
-    try:
-        userInput = int(input("Choose number of 4 digits: "))
-    except ValueError:
-        print("Not an integer!")
-bulls = 0
-cows = 0
-tries = 1
-while bulls != 4:
+
+def check_bull_cow(secret, guess):
+    bull = 0
+    cow = 0
+    for i in range(len(secret)):
+        if secret[i] in guess:
+            cow += 1
+        if secret[i] == guess[i]:
+            bull += 1
+    print(f"{bull}A{cow-bull}B")
+    return f"{bull}A{cow-bull}B"
+
+
+while tries != 16:
     print("Try number ", tries)
     tries += 1
-    try_find = input()
-    print(try_find == str(userInput))
-    print('try_find ', type(try_find))
-    print('userInput ', type(userInput))
-    if try_find == str(userInput):
-        bulls = 4
-# print("Congratulations you won the game of bows and Cows")
+    try_find = ''
+    while len(str(try_find)) != 4:
+        try:
+            try_find = input()
+        except ValueError:
+            print("Not an integer!")
+    check_bull_cow(guess, try_find)
+    if try_find == str(guess):
+        print("Congratulations you won the game of bows and Cows")
+        break
+print("Hidden number was: ", guess)
