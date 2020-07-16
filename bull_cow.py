@@ -2,15 +2,11 @@ import random
 guess = ''.join(random.sample("0123456789", 4))
 tries = 1
 print('''
-                        ┌──┐─────┌─┐───────┌┐┌─┐────┌─┐
-                        │┌┐├┬┬┐┌┐│─┤┌─┐┌─┬┬┘││┌┼─┬┬┬┤─┤
-                        │┌┐│││└┤└┼─││┼└┤│││┼││└┤┼│││├─│
-                        └──┴─┴─┴─┴─┘└──┴┴─┴─┘└─┴─┴──┴─┘
             ______________________________________________________
             |      Welcome to the game of Bulls and Cows          | 
             |In this game you will try to find the hidden number  |
             |Hidden number consists from 4 digits which not repeat|
-            |       You have 15 attempts to find the number        |
+            |       You have 15 attempts to find the number       |
             |_____________________________________________________|
       ''')
 
@@ -24,7 +20,7 @@ def check_bull_cow(secret, guess):
         if secret[i] == guess[i]:
             bull += 1
     print(f"{bull}A{cow-bull}B")
-    return f"{bull}A{cow-bull}B"
+    # return f"{bull}A{cow-bull}B"
 
 
 while tries != 16:
@@ -38,6 +34,6 @@ while tries != 16:
             print("Not an integer!")
     check_bull_cow(guess, try_find)
     if try_find == str(guess):
-        print("Congratulations you won the game of bows and Cows")
+        print("Congratulations you won the game of Bulls and Cows")
         break
 print("Hidden number was: ", guess)
