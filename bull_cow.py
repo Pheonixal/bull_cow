@@ -1,15 +1,38 @@
 import random
+import tkinter as tk
+
 guess = ''.join(random.sample("0123456789", 4))
 tries = 1
-print('''
-            ______________________________________________________
-            |      Welcome to the game of Bulls and Cows          | 
-            |In this game you will try to find the hidden number  |
-            |Hidden number consists from 4 digits which not repeat|
-            |       You have 15 attempts to find the number       |
-            |_____________________________________________________|
-      ''')
+welcome_text = '''
+      Welcome to the game of Bulls and Cows           
+In this game you will try to find the hidden number  
+Hidden number consists from 4 digits which not repeat
+       You have 15 attempts to find the number'''
 
+root = tk.Tk()
+root.title("Bulls & Cows")
+root.geometry("720x480")
+welcome_frame = tk.Frame()
+welcome_label = tk.Label(master=welcome_frame, text=welcome_text)
+welcome_label.pack()
+welcome_frame.pack()
+
+
+def handle_click(event):
+    print("CLICK")
+
+button = tk.Button(
+    master=welcome_frame,
+    text="Start!",
+    width=5,
+    height=1,
+    command=lambda: welcome_frame.pack_forget()
+)
+button.bind("<Button-1>", handle_click)
+button.pack()
+
+# Run root window's main loop
+root.mainloop()
 
 def check_bull_cow(secret, guess):
     bull = 0
