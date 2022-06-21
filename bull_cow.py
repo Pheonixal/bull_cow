@@ -7,14 +7,39 @@ In this game you will try to find the hidden number
 Hidden number consists from 4 digits which not repeat
        You have 15 attempts to find the number'''
 
-def tktk():
+
+def create_root():
     root = tk.Tk()
     root.title("Bulls & Cows")
     root.geometry("720x480")
+    return root
+
+
+def crate_frame(state):
+    if state == "begin":
+        label_text = welcome_text
+    else:
+        label_text = "Try number "
+
     welcome_frame = tk.Frame()
-    welcome_label = tk.Label(master=welcome_frame, text=welcome_text)
-    welcome_label.pack()
+    create_welcome_label(welcome_frame, label_text)
     welcome_frame.pack()
+    return welcome_frame
+
+
+def create_welcome_label(welcome_frame, label_text):
+    welcome_label = tk.Label(master=welcome_frame, text=label_text)
+    welcome_label.pack()
+
+
+def create_entry(welcome_frame):
+    entry = tk.Entry(master=welcome_frame)
+    entry.pack()
+
+
+def tktk():
+    root = create_root()
+    welcome_frame = crate_frame("begin")
 
     def handle_click(event):
         game()
@@ -46,23 +71,25 @@ def check_bull_cow(secret, guess):
 
 
 def game():
-    print(welcome_text)
-
     guess = ''.join(random.sample("0123456789", 4))
     tries = 1
-    while tries != 16:
-        print("Try number ", tries)
-        tries += 1
-        try_find = ''
-        while len(str(try_find)) != 4:
-            try:
-                try_find = input()
-            except ValueError:
-                print("Not an integer!")
-        check_bull_cow(guess, try_find)
-        if try_find == str(guess):
-            print("Congratulations you won the game of Bulls and Cows")
-            break
+
+    game_frame = crate_frame("game")
+    create_entry(game_frame)
+    #
+    # while tries != 16:
+    #     print("Try number ", tries)
+    #     tries += 1
+    #     try_find = ''
+    #     while len(str(try_find)) != 4:
+    #         try:
+    #             try_find = input()
+    #         except ValueError:
+    #             print("Not an integer!")
+    #     check_bull_cow(guess, try_find)
+    #     if try_find == str(guess):
+    #         print("Congratulations you won the game of Bulls and Cows")
+    #         break
     print("Hidden number was: ", guess)
 
 
