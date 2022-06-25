@@ -24,14 +24,15 @@ def create_root():
 
 def crate_frame():
     """Create frame widget"""
-    tk_frame = tk.Frame()
-    tk_frame.pack()
-    return tk_frame
+    global game_frame
+    game_frame = tk.Frame()
+    game_frame.pack()
 
 
-def create_label(given_frame, label_text):
+def create_label(label_text):
     """Create label widget for given frame"""
-    frame_label = tk.Label(master=given_frame, text=label_text)
+    global game_frame
+    frame_label = tk.Label(master=game_frame, text=label_text)
     frame_label.pack()
 
 
@@ -45,30 +46,20 @@ def create_entry():
     entry.focus()
 
 
-def start_game(welcome_frame):
-    """Removes welcome frame after starting the game"""
-    welcome_frame.pack_forget()
-
-
 def bull_cow_game():
     """Main function that starts with init"""
     global secret, current_guess_count, tries
     root = create_root()
-    # TODO remove welcome frame and leave only one frame
-    welcome_frame = crate_frame()
-    create_label(welcome_frame, welcome_text)
-
-    def handle_click(self):
-        game(welcome_frame)
+    crate_frame()
+    create_label(welcome_text)
 
     button = tk.Button(
-        master=welcome_frame,
+        master=game_frame,
         text="Start!",
         width=5,
         height=1,
-        command=lambda: welcome_frame.pack_forget()
+        command=lambda: game()
     )
-    button.bind("<Button-1>", handle_click)
     button.pack()
 
     # Run root window's main loop
@@ -85,7 +76,6 @@ def is_valid_guess(guess):
 def clear_frame():
     """Clears out all the widgets in given frame"""
     for widgets in game_frame.winfo_children():
-        print(widgets)
         widgets.destroy()
 
 
@@ -95,7 +85,7 @@ def check_bull_cow(guess):
     if is_valid_guess(guess):
         if secret == guess:
             clear_frame()
-            create_label(game_frame, game_win)
+            create_label(game_win)
         else:
             bull = 0
             cow = 0
@@ -106,24 +96,23 @@ def check_bull_cow(guess):
                     bull += 1
             current_guess_count += 1
             entry.pack_forget()
-            create_label(game_frame, f"{bull}A{cow - bull}B")
-            game(False)
+            create_label(f"{guess}")
+            create_label(f"{bull}A{cow - bull}B")
+            game()
 
 
-def game(welcome_frame):
-    global secret, current_guess_count, tries, game_frame, game_frame_crated
-    if welcome_frame:
-        if current_guess_count == 0:
-            start_game(welcome_frame)
+def game():
+    global secret, current_guess_count, tries, game_frame_crated
+    if current_guess_count == 1:
+        clear_frame()
     if current_guess_count == tries:
         clear_frame()
-        create_label(game_frame, f"{game_over} {secret}")
+        create_label(f"{game_over} {secret}")
     else:
         if not game_frame_crated:
-            game_frame = crate_frame()
             game_frame_crated = True
         label_text = f"Try number {current_guess_count}"
-        create_label(game_frame, label_text)
+        create_label(label_text)
         create_entry()
 
     # Cheat to know wat is hidden number, uncomment to cheat
